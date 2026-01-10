@@ -2,6 +2,10 @@ import express from "express";
 import Summary from "../models/Summary.js";
 import { GoogleGenAI } from "@google/genai";
 import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });

@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: Text Summarizer API
+  description: API for summarizing text using AI models (Groq and Gemini) and managing summary history
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Development server
+paths:
+  /api/groq/summarize:
+    post:
+      summary: Summarize text using Groq AI
+      description: Generate a summary of the provided text using Groq's Llama model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+                - options
+              properties:
+                text:
+                  type: string
+                  description: The text to be summarized
+                  example: "This is a long text that needs to be summarized..."
+                options:
+                  type: object
+                  required:
+                    - length
+                    - format
+                    - tone
+                  properties:
+                    length:
+                      type: string
+                      description: Desired length of the summary
+                      example: "short"
+                    format:
+                      type: string
+                      description: Format of the summary
+                      example: "bullet points"
+                    tone:
+                      type: string
+                      description: Tone of the summary
+                      example: "formal"
+      responses:
+        '200':
+          description: Summary generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summary'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/gemini/summarize:
+    post:
+      summary: Summarize text using Gemini AI
+      description: Generate a summary of the provided text using Google's Gemini model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+                - options
+              properties:
+                text:
+                  type: string
+                  description: The text to be summarized
+                  example: "This is a long text that needs to be summarized..."
+                options:
+                  type: object
+                  required:
+                    - length
+                    - format
+                    - tone
+                  properties:
+                    length:
+                      type: string
+                      description: Desired length of the summary
+                      example: "short"
+                    format:
+                      type: string
+                      description: Format of the summary
+                      example: "bullet points"
+                    tone:
+                      type: string
+                      description: Tone of the summary
+                      example: "formal"
+      responses:
+        '200':
+          description: Summary generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summary'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/history:
+    get:
+      summary: Get summary history
+      description: Retrieve all saved summaries sorted by creation date (newest first)
+      responses:
+        '200':
+          description: List of summaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Summary'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/history/{id}:
+    delete:
+      summary: Delete a summary
+      description: Delete a specific summary by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the summary to delete
+          example: "507f1f77bcf86cd799439011"
+      responses:
+        '200':
+          description: Summary deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Deleted successfully"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Summary:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier for the summary
+          example: "507f1f77bcf86cd799439011"
+        originalText:
+          type: string
+          description: The original text that was summarized
+          example: "This is the original text..."
+        summary:
+          type: string
+          description: The generated summary
+          example: "This is the summary..."
+        options:
+          type: object
+          properties:
+            length:
+              type: string
+              description: Length option used for summarization
+              example: "short"
+            format:
+              type: string
+              description: Format option used for summarization
+              example: "bullet points"
+            tone:
+              type: string
+              description: Tone option used for summarization
+              example: "formal"
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the summary was created
+          example: "2023-10-01T12:00:00.000Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the summary was last updated
+          example: "2023-10-01T12:00:00.000Z"
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "Server configuration error: Missing API Key"

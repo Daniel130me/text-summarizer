@@ -18,8 +18,16 @@ import {
   Share2,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { useLocation } from "react-router-dom";
+import Doc from "./SwaggerDoc.jsx";
 
 const App = () => {
+  const location = useLocation();
+
+  if (location.pathname === '/docs') {
+    return <Doc />;
+  }
+
   const [inputText, setInputText] = useState("");
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
@@ -130,6 +138,12 @@ const App = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => window.location.href = '/docs'}
+              className="px-3 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors"
+            >
+              API Docs
+            </button>
             <button
               onClick={() => setShowSidebar(!showSidebar)}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors md:hidden"
