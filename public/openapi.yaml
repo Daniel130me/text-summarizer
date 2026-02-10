@@ -4,8 +4,8 @@ info:
   description: API for summarizing text using AI models (Groq and Gemini) and managing summary history
   version: 1.0.0
 servers:
-  - url: http://localhost:5000
-    description: Development server
+  - url: /api
+    description: Production/Development server
 paths:
   /api/groq/summarize:
     post:
@@ -45,18 +45,18 @@ paths:
                       description: Tone of the summary
                       example: "formal"
       responses:
-        '200':
+        "200":
           description: Summary generated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Summary'
-        '500':
+                $ref: "#/components/schemas/Summary"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /api/gemini/summarize:
     post:
       summary: Summarize text using Gemini AI
@@ -95,37 +95,37 @@ paths:
                       description: Tone of the summary
                       example: "formal"
       responses:
-        '200':
+        "200":
           description: Summary generated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Summary'
-        '500':
+                $ref: "#/components/schemas/Summary"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /api/history:
     get:
       summary: Get summary history
       description: Retrieve all saved summaries sorted by creation date (newest first)
       responses:
-        '200':
+        "200":
           description: List of summaries
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Summary'
-        '500':
+                  $ref: "#/components/schemas/Summary"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /api/history/{id}:
     delete:
       summary: Delete a summary
@@ -139,7 +139,7 @@ paths:
           description: The ID of the summary to delete
           example: "507f1f77bcf86cd799439011"
       responses:
-        '200':
+        "200":
           description: Summary deleted successfully
           content:
             application/json:
@@ -149,12 +149,12 @@ paths:
                   message:
                     type: string
                     example: "Deleted successfully"
-        '500':
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Summary:

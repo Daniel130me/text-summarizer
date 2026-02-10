@@ -24,7 +24,7 @@ import Doc from "./SwaggerDoc.jsx";
 const App = () => {
   const location = useLocation();
 
-  if (location.pathname === '/docs') {
+  if (location.pathname === "/docs") {
     return <Doc />;
   }
 
@@ -41,7 +41,7 @@ const App = () => {
     tone: "professional",
   });
 
-  const base_url = "http://localhost:5002/api";
+  const base_url = "/api";
 
   const fetchHistory = async () => {
     try {
@@ -139,7 +139,7 @@ const App = () => {
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => window.location.href = '/docs'}
+              onClick={() => (window.location.href = "/docs")}
               className="px-3 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors"
             >
               API Docs
